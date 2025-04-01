@@ -133,4 +133,14 @@ SELECT name, sum(quantity) as total_orders FROM orders
 SELECT SUM(orders.quantity * books.price) AS total_revenue FROM orders
     JOIN books ON orders.book_id = books.id;
 
-    ------------------- END OF PROBLEM 4 (Three) ---------------------------
+    ------------------- END OF PROBLEM 4 (four) ---------------------------
+
+---- PROBLEM 5: List all customers who have placed more than one order.
+        --STEP 1: Previously we have got the total order from each customer using problem 3. 
+        --SETP 2: Now we just have to add having filter to get the values more then 1. 
+SELECT name, sum(quantity) as orders_count FROM orders
+    JOIN customers ON orders.customer_id = customers.id
+    GROUP BY name
+    HAVING sum(quantity) > 1
+
+------------------- END OF PROBLEM 5 (Five) ---------------------------
