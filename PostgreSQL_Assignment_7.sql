@@ -54,3 +54,33 @@ INSERT INTO customers (name, email) VALUES
 
 -- CHECKING CURSTOMERS TABLE  DATA --
 SELECT * FROM customers;
+
+
+---- STEP 3: CREATE ORDER TABLE ------------
+CREATE TABLE orders (
+   id SERIAL PRIMARY KEY,
+    customer_id INT NOT NULL REFERENCES customers(id),
+    book_id INT NOT NULL REFERENCES books(id),
+    quantity INT NOT NULL CHECK (quantity > 0),
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- INSET DATA INTO ORDER TABLE --
+INSERT INTO orders (customer_id, book_id, quantity) VALUES
+    (1, 3, 2),
+    (2, 5, 1), 
+    (3, 8, 3),
+    (4, 2, 1),
+    (5, 6, 4),
+    (6, 9, 2), 
+    (7, 1, 1),
+    (8, 10, 5),
+    (9, 4, 2),
+    (10, 7, 3);
+
+
+-- CHECK ORDER TABLE DATA --
+SELECT * FROM orders;
+
+
