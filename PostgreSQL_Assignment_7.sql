@@ -76,7 +76,7 @@ INSERT INTO orders (customer_id, book_id, quantity) VALUES
     (3, 8, 3),
     (4, 2, 1),
     (5, 6, 4),
-    (6, 9, 2), 
+    (5, 9, 2), 
     (7, 1, 1),
     (8, 10, 5),
     (9, 4, 2),
@@ -153,5 +153,27 @@ SELECT round(avg(price)) as avg_book_price FROM books
 ------------------- END OF PROBLEM 6 (Six) ---------------------------
 
  ---- PROBLEM 7: Increase the price of all books published before 2000 by 10%.
-    -- STEP 1: 
+    -- STEP 1: Find the books publish before 2000;
+    -- STEP 2: Set book price 10% extra. 
+    -- STEP 3: Update books. 
 
+UPDATE books
+    SET price = price * 1.10
+    WHERE published_year < 2000;
+--CHECK UPDATED BOOKS
+SELECT * FROM books
+    WHERE published_year < 2000;
+
+------------------- END OF PROBLEM 7 (Seven) ---------------------------
+
+
+ ---- PROBLEM 8: Delete customers who haven't placed any orders.
+    -- STEP 1: If the customer has placed any order he/she will be on order table so we have to find the customer who are not on order table.
+    -- STEP 2: Delete those customers. 
+DELETE FROM customers
+    WHERE id NOT IN (SELECT DISTINCT customer_id FROM orders);
+
+-- CHECK 
+SELECT * FROM customers;
+SELECT * FROM orders;
+------------------- END OF PROBLEM 8 (Eight) ---------------------------
