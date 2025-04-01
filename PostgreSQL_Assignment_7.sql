@@ -1,5 +1,11 @@
 -- Active: 1743304686230@@127.0.0.1@5432@bookstore_db
 
+-- GLOBAL FUNTION -- 
+DROP TABLE books;
+DROP TABLE customers;
+DROP TABLE orders;
+
+
 -----------  STEP 1: Creating BOOKS table. ---------------
 CREATE TABLE books (
     id SERIAL PRIMARY KEY, 
@@ -12,23 +18,20 @@ CREATE TABLE books (
 
 -- INSERTING DATA INTO BOOK TABLE --
 INSERT INTO books (title, author, price, stock, published_year) VALUES
-('Sonar Tori', 'Rabindranath Tagore', 250.00, 10, 1894),
+('Sonar Tori', 'Rabindranath Tagore', 250.00, 0, 1894),
 ('Devdas', 'Sarat Chandra Chattopadhyay', 300.00, 8, 1917),
 ('Pather Panchali', 'Bibhutibhushan Bandyopadhyay', 400.00, 12, 1929),
 ('Nodi O Nari', 'Humayun Ahmed', 350.00, 15, 1991),
 ('Amar Bondhu Rashed', 'Muhammed Zafar Iqbal', 220.00, 20, 1983),
 ('Agunpakhi', 'Selina Hossain', 280.00, 5, 2006),
 ('Lalsalu', 'Syed Waliullah', 320.00, 7, 1948),
-('Karnafulir Kule', 'Munier Chowdhury', 270.00, 6, 1955),
+('Karnafulir Kule', 'Munier Chowdhury', 270.00, 0, 1955),
 ('Ekjon Mayaboti', 'Sunil Gangopadhyay', 330.00, 9, 1990),
 ('Dahonkal', 'Selina Hossain', 290.00, 10, 1986);
 
 
 -- CHECKING BOOKS TABLE  DATA --
 SELECT * FROM books;
-
---DELETE BOOKS TABLE IF NEEDED;
-DROP TABLE books;
 
 ----- STEP 2: CREATE CUSTOMERS TABLE ------
 CREATE TABLE customers(
@@ -84,3 +87,27 @@ INSERT INTO orders (customer_id, book_id, quantity) VALUES
 SELECT * FROM orders;
 
 
+---------------------------------------------------------------------------------------
+-------------------------------------- SOLUTIOINS -------------------------------------
+---------------------------------------------------------------------------------------
+
+
+---- PROBLEM 1: Find books that are out of stock.
+        -- STEP 1: Select tilte of the books. 
+        -- SETP 2: Filter out books with stock less then 1.
+
+SELECT title, stock FROM books
+    WHERE stock < 1
+
+------------------- END OF PROBLEM 1 (ONE) ---------------------------
+
+---- PROBLEM 2: Retrieve the most expensive book in the store..
+        -- STEP 1: Select all the books. 
+        -- SETP 2: Order the book by price desc this way we will get the heighest price on top.
+        -- STEP 3: Just select the first one by limit.
+
+SELECT * FROM books
+    ORDER BY price DESC
+    LIMIT 1
+
+------------------- END OF PROBLEM 2 (TWO) ---------------------------
