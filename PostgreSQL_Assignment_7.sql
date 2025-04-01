@@ -80,6 +80,7 @@ INSERT INTO orders (customer_id, book_id, quantity) VALUES
     (7, 1, 1),
     (8, 10, 5),
     (9, 4, 2),
+    (9, 4, 10),
     (10, 7, 3);
 
 
@@ -111,3 +112,25 @@ SELECT * FROM books
     LIMIT 1
 
 ------------------- END OF PROBLEM 2 (TWO) ---------------------------
+
+
+---- PROBLEM 3: Find the total number of orders placed by each customer.
+        -- STEP 1: Join the order and customer table. 
+        -- SETP 2: Group the table using customer name so that we can eliminate duplicate values.
+        -- STEP 3: select name and do the sum of orders.
+
+SELECT name, sum(quantity) as total_orders FROM orders
+    JOIN customers ON orders.customer_id = customers.id
+    GROUP BY name
+
+
+------------------- END OF PROBLEM 3 (Three) ---------------------------
+
+---- PROBLEM 4: Calculate the total revenue generated from book sales.
+    -- SETP 1: We have to join the tables to get order quantity and book price as they are on two different tables. 
+    -- STEP 2: Now if we multiply order quantity with the book price we will get per order price 
+    -- STEP 3: Now we have to do the sum of the order price. 
+SELECT SUM(orders.quantity * books.price) AS total_revenue FROM orders
+    JOIN books ON orders.book_id = books.id;
+
+    ------------------- END OF PROBLEM 4 (Three) ---------------------------
