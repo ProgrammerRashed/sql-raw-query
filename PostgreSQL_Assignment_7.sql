@@ -1,6 +1,6 @@
 -- Active: 1743304686230@@127.0.0.1@5432@bookstore_db
 
--- STEP 1: Creating BOOKS table. 
+-----------  STEP 1: Creating BOOKS table. ---------------
 CREATE TABLE books (
     id SERIAL PRIMARY KEY, 
     title VARCHAR(255),
@@ -12,16 +12,45 @@ CREATE TABLE books (
 
 -- INSERTING DATA INTO BOOK TABLE --
 INSERT INTO books (title, author, price, stock, published_year) VALUES
-('The Great Gatsby', 'F. Scott Fitzgerald', 12.99, 10, 1925),
-('To Kill a Mockingbird', 'Harper Lee', 14.50, 5, 1960),
-('1984', 'George Orwell', 9.99, 15, 1949),
-('Pride and Prejudice', 'Jane Austen', 11.25, 8, 1813),
-('The Catcher in the Rye', 'J.D. Salinger', 13.75, 12, 1951),
-('Moby-Dick', 'Herman Melville', 18.00, 3, 1851),
-('War and Peace', 'Leo Tolstoy', 20.00, 7, 1869),
-('The Hobbit', 'J.R.R. Tolkien', 15.99, 20, 1937),
-('Harry Potter', 'J.K. Rowling', 19.99, 25, 1997),
-('The Da Vinci Code', 'Dan Brown', 16.50, 30, 2003);
+('Sonar Tori', 'Rabindranath Tagore', 250.00, 10, 1894),
+('Devdas', 'Sarat Chandra Chattopadhyay', 300.00, 8, 1917),
+('Pather Panchali', 'Bibhutibhushan Bandyopadhyay', 400.00, 12, 1929),
+('Nodi O Nari', 'Humayun Ahmed', 350.00, 15, 1991),
+('Amar Bondhu Rashed', 'Muhammed Zafar Iqbal', 220.00, 20, 1983),
+('Agunpakhi', 'Selina Hossain', 280.00, 5, 2006),
+('Lalsalu', 'Syed Waliullah', 320.00, 7, 1948),
+('Karnafulir Kule', 'Munier Chowdhury', 270.00, 6, 1955),
+('Ekjon Mayaboti', 'Sunil Gangopadhyay', 330.00, 9, 1990),
+('Dahonkal', 'Selina Hossain', 290.00, 10, 1986);
+
 
 -- CHECKING BOOKS TABLE  DATA --
 SELECT * FROM books;
+
+--DELETE BOOKS TABLE IF NEEDED;
+DROP TABLE books;
+
+----- STEP 2: CREATE CUSTOMERS TABLE ------
+CREATE TABLE customers(
+      id SERIAL PRIMARY KEY, 
+      name VARCHAR(50),
+      email VARCHAR(255) UNIQUE,
+      joined_date DATE DEFAULT CURRENT_DATE
+)
+
+
+-- INSERT DATA INTO CUSTOMER TABLE --
+INSERT INTO customers (name, email) VALUES
+('Abdul Karim', 'abdul.karim@example.com'),
+('Sharmin Akter', 'sharmin.akter@example.com'),
+('Rahim Uddin', 'rahim.uddin@example.com'),
+('Nasima Begum', 'nasima.begum@example.com'),
+('Tanvir Hossain', 'tanvir.hossain@example.com'),
+('Farhana Islam', 'farhana.islam@example.com'),
+('Jahid Hasan', 'jahid.hasan@example.com'),
+('Mitu Chowdhury', 'mitu.chowdhury@example.com'),
+('Alamgir Kabir', 'alamgir.kabir@example.com'),
+('Rokeya Sultana', 'rokeya.sultana@example.com');
+
+-- CHECKING CURSTOMERS TABLE  DATA --
+SELECT * FROM customers;
