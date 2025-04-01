@@ -6,7 +6,11 @@ DROP TABLE customers;
 DROP TABLE orders;
 
 
------------  STEP 1: Creating BOOKS table. ---------------
+------------------------------------------------------------------------------
+---------------------------- CREATING TABLES ---------------------------------
+------------------------------------------------------------------------------
+
+-----------  CREATING BOOK TABLE ---------------
 CREATE TABLE books (
     id SERIAL PRIMARY KEY, 
     title VARCHAR(255),
@@ -16,7 +20,7 @@ CREATE TABLE books (
     published_year INT
 );
 
--- INSERTING DATA INTO BOOK TABLE --
+------------- INSERTING DATA INTO BOOK TABLE ------------
 INSERT INTO books (title, author, price, stock, published_year) VALUES
 ('Sonar Tori', 'Rabindranath Tagore', 250.00, 0, 1894),
 ('Devdas', 'Sarat Chandra Chattopadhyay', 300.00, 8, 1917),
@@ -30,10 +34,10 @@ INSERT INTO books (title, author, price, stock, published_year) VALUES
 ('Dahonkal', 'Selina Hossain', 290.00, 10, 1986);
 
 
--- CHECKING BOOKS TABLE  DATA --
+-------------- CHECKING BOOKS TABLE  DATA ----------------
 SELECT * FROM books;
 
------ STEP 2: CREATE CUSTOMERS TABLE ------
+-----------  CREATING CUSTOMER TABLE ---------------
 CREATE TABLE customers(
       id SERIAL PRIMARY KEY, 
       name VARCHAR(50),
@@ -42,7 +46,7 @@ CREATE TABLE customers(
 )
 
 
--- INSERT DATA INTO CUSTOMER TABLE --
+------------- INSERTING DATA INTO CUSTOMER TABLE ------------
 INSERT INTO customers (name, email) VALUES
 ('Abdul Karim', 'abdul.karim@example.com'),
 ('Sharmin Akter', 'sharmin.akter@example.com'),
@@ -55,11 +59,11 @@ INSERT INTO customers (name, email) VALUES
 ('Alamgir Kabir', 'alamgir.kabir@example.com'),
 ('Rokeya Sultana', 'rokeya.sultana@example.com');
 
--- CHECKING CURSTOMERS TABLE  DATA --
+-------------- CHECKING CUSTOMER TABLE  DATA ----------------
 SELECT * FROM customers;
 
 
----- STEP 3: CREATE ORDER TABLE ------------
+-----------  CREATING ORDER TABLE ---------------
 CREATE TABLE orders (
    id SERIAL PRIMARY KEY,
     customer_id INT NOT NULL REFERENCES customers(id),
@@ -68,8 +72,7 @@ CREATE TABLE orders (
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
--- INSET DATA INTO ORDER TABLE --
+------------- INSERTING DATA INTO ORDER TABLE ------------
 INSERT INTO orders (customer_id, book_id, quantity) VALUES
     (1, 3, 2),
     (2, 5, 1), 
@@ -84,7 +87,7 @@ INSERT INTO orders (customer_id, book_id, quantity) VALUES
     (10, 7, 3);
 
 
--- CHECK ORDER TABLE DATA --
+-------------- CHECKING ORDER TABLE  DATA ----------------
 SELECT * FROM orders;
 
 
@@ -92,70 +95,90 @@ SELECT * FROM orders;
 -------------------------------------- SOLUTIOINS -------------------------------------
 ---------------------------------------------------------------------------------------
 
-
----- PROBLEM 1: Find books that are out of stock.
-        -- STEP 1: Select tilte of the books. 
-        -- SETP 2: Filter out books with stock less then 1.
+------------------------------------- PROBLEM 1 --------------------------------------------
+---------------------------------------------------------------------------------------------
+-- Statment: Find books that are out of stock.
+-- STEP 1: Select tilte of the books. 
+-- SETP 2: Filter out books with stock less then 1.
 
 SELECT title, stock FROM books
     WHERE stock < 1
 
-------------------- END OF PROBLEM 1 (ONE) ---------------------------
+------------------------------------- END OF PROBLEM 1 -----------------------------------------
+------------------------------------------------------------------------------------------------
 
----- PROBLEM 2: Retrieve the most expensive book in the store..
-        -- STEP 1: Select all the books. 
-        -- SETP 2: Order the book by price desc this way we will get the heighest price on top.
-        -- STEP 3: Just select the first one by limit.
-
+------------------------------------- PROBLEM 2 ------------------------------------------------
+------------------------------------------------------------------------------------------------
+-- Statment: Retrieve the most expensive book in the store..
+-- STEP 1: Select all the books. 
+-- SETP 2: Order the book by price desc this way we will get the heighest price on top.
+-- STEP 3: Just select the first one by limit.
 SELECT * FROM books
     ORDER BY price DESC
     LIMIT 1
 
-------------------- END OF PROBLEM 2 (TWO) ---------------------------
+------------------------------------- END OF PROBLEM 2 ------------------------------------------
+-------------------------------------------------------------------------------------------------
 
 
----- PROBLEM 3: Find the total number of orders placed by each customer.
-        -- STEP 1: Join the order and customer table. 
-        -- SETP 2: Group the table using customer name so that we can eliminate duplicate values.
-        -- STEP 3: select name and do the sum of orders.
+------------------------------------- PROBLEM 3 --------------------------------------------------
+--------------------------------------------------------------------------------------------------
+-- Statment: Find the total number of orders placed by each customer.
+-- STEP 1: Join the order and customer table. 
+-- SETP 2: Group the table using customer name so that we can eliminate duplicate values.
+-- STEP 3: select name and do the sum of orders.
 
 SELECT name, sum(quantity) as total_orders FROM orders
     JOIN customers ON orders.customer_id = customers.id
     GROUP BY name
 
+------------------------------------- END OF PROBLEM 3 --------------------------------------------
+---------------------------------------------------------------------------------------------------
 
-------------------- END OF PROBLEM 3 (Three) ---------------------------
 
----- PROBLEM 4: Calculate the total revenue generated from book sales.
-    -- SETP 1: We have to join the tables to get order quantity and book price as they are on two different tables. 
-    -- STEP 2: Now if we multiply order quantity with the book price we will get per order price 
-    -- STEP 3: Now we have to do the sum of the order price. 
+------------------------------------- PROBLEM 4 --------------------------------------------------
+--------------------------------------------------------------------------------------------------
+---- Statment: Calculate the total revenue generated from book sales.
+-- SETP 1: We have to join the tables to get order quantity and book price as they are on two different tables. 
+-- STEP 2: Now if we multiply order quantity with the book price we will get per order price 
+-- STEP 3: Now we have to do the sum of the order price. 
 SELECT SUM(orders.quantity * books.price) AS total_revenue FROM orders
     JOIN books ON orders.book_id = books.id;
 
-    ------------------- END OF PROBLEM 4 (four) ---------------------------
+------------------------------------- END OF PROBLEM 4 --------------------------------------------
+---------------------------------------------------------------------------------------------------
 
----- PROBLEM 5: List all customers who have placed more than one order.
-        --STEP 1: Previously we have got the total order from each customer using problem 3. 
-        --SETP 2: Now we just have to add having filter to get the values more then 1. 
+------------------------------------- PROBLEM 5 --------------------------------------------------
+--------------------------------------------------------------------------------------------------
+
+---- Statment: List all customers who have placed more than one order.
+--STEP 1: Previously we have got the total order from each customer using problem 3. 
+--SETP 2: Now we just have to add having filter to get the values more then 1. 
 SELECT name, sum(quantity) as orders_count FROM orders
     JOIN customers ON orders.customer_id = customers.id
     GROUP BY name
     HAVING sum(quantity) > 1;
 
-------------------- END OF PROBLEM 5 (Five) ---------------------------
+------------------------------------- END OF PROBLEM 5 --------------------------------------------
+---------------------------------------------------------------------------------------------------
 
 
----- PROBLEM 6: Find the average price of books in the store.
-        --STEP 1: Is was a easy one just using avg func provided by Postgress. 
+------------------------------------- PROBLEM 6 --------------------------------------------------
+--------------------------------------------------------------------------------------------------
+---- Statment: Find the average price of books in the store.
+-- STEP 1: Is was a easy one just using avg func provided by Postgress. 
 SELECT round(avg(price)) as avg_book_price FROM books
 
-------------------- END OF PROBLEM 6 (Six) ---------------------------
+------------------------------------- END OF PROBLEM 6 --------------------------------------------
+---------------------------------------------------------------------------------------------------
 
- ---- PROBLEM 7: Increase the price of all books published before 2000 by 10%.
-    -- STEP 1: Find the books publish before 2000;
-    -- STEP 2: Set book price 10% extra. 
-    -- STEP 3: Update books. 
+
+------------------------------------- PROBLEM 7 --------------------------------------------------
+--------------------------------------------------------------------------------------------------
+ ---- Statment: Increase the price of all books published before 2000 by 10%.
+-- STEP 1: Find the books publish before 2000;
+-- STEP 2: Set book price 10% extra.
+-- STEP 3: Update books.
 
 UPDATE books
     SET price = price * 1.10
@@ -163,17 +186,22 @@ UPDATE books
 --CHECK UPDATED BOOKS
 SELECT * FROM books
     WHERE published_year < 2000;
+------------------------------------- END OF PROBLEM 7 --------------------------------------------
+---------------------------------------------------------------------------------------------------
 
-------------------- END OF PROBLEM 7 (Seven) ---------------------------
 
 
- ---- PROBLEM 8: Delete customers who haven't placed any orders.
-    -- STEP 1: If the customer has placed any order he/she will be on order table so we have to find the customer who are not on order table.
-    -- STEP 2: Delete those customers. 
+------------------------------------- PROBLEM 8 --------------------------------------------------
+--------------------------------------------------------------------------------------------------
+
+ ---- Statment: Delete customers who haven't placed any orders.
+-- STEP 1: If the customer has placed any order he/she will be on order table so we have to find the customer who are not on order table.
+-- STEP 2: Delete those customers. 
 DELETE FROM customers
     WHERE id NOT IN (SELECT DISTINCT customer_id FROM orders);
 
 -- CHECK 
 SELECT * FROM customers;
 SELECT * FROM orders;
-------------------- END OF PROBLEM 8 (Eight) ---------------------------
+------------------------------------- END OF PROBLEM 8 --------------------------------------------
+---------------------------------------------------------------------------------------------------
