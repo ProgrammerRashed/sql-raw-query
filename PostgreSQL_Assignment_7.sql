@@ -141,6 +141,17 @@ SELECT SUM(orders.quantity * books.price) AS total_revenue FROM orders
 SELECT name, sum(quantity) as orders_count FROM orders
     JOIN customers ON orders.customer_id = customers.id
     GROUP BY name
-    HAVING sum(quantity) > 1
+    HAVING sum(quantity) > 1;
 
 ------------------- END OF PROBLEM 5 (Five) ---------------------------
+
+
+---- PROBLEM 6: Find the average price of books in the store.
+        --STEP 1: Is was a easy one just using avg func provided by Postgress. 
+SELECT round(avg(price)) as avg_book_price FROM books
+
+------------------- END OF PROBLEM 6 (Six) ---------------------------
+
+ ---- PROBLEM 7: Increase the price of all books published before 2000 by 10%.
+    -- STEP 1: 
+
